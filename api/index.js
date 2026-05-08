@@ -21583,7 +21583,13 @@ var getRSS = async (req, res) => {
 
 // server/routes/analytics.ts
 var getAnalytics = async (req, res) => {
-  const { articles } = await getAllArticles();
+  let articles = [];
+  try {
+    const result = await getAllArticles();
+    articles = result.articles || [];
+  } catch (error) {
+    console.error("Analytics: Failed to fetch articles from storage, using mock data fallback.", error);
+  }
   const totalViews = 125430;
   const avgSession = "4m 12s";
   const bounceRate = "32.5%";
