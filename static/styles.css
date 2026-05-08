@@ -1,0 +1,673 @@
+/* ============================================
+   CELLEB - Global Styles
+   ============================================ */
+
+/* Google Fonts Import */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap");
+
+/* ============================================
+   CSS Variables & Root
+   ============================================ */
+
+:root {
+  --primary: #d4af37;
+  --primary-dark: #b8941f;
+  --black: #000000;
+  --white: #ffffff;
+  --gray-100: #f5f5f5;
+  --gray-200: #e5e5e5;
+  --gray-600: #666666;
+  --gray-700: #444444;
+  --gray-800: #333333;
+  --border-color: #000000;
+}
+
+/* ============================================
+   Reset & Base Styles
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "IBM Plex Sans", sans-serif;
+  background-color: #f9f8f5;
+  color: #333;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  color: #000;
+}
+
+h1 {
+  font-size: 3rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+p {
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--primary-dark);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ============================================
+   Header & Navigation
+   ============================================ */
+
+/* Top Category Menu */
+.top-nav {
+  display: none;
+  background-color: white;
+  border-bottom: 1px solid #000;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.top-nav.show {
+  display: block;
+}
+
+.top-nav-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.top-nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  padding: 0.75rem 0;
+  list-style: none;
+}
+
+.top-nav a {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #000;
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: color 0.3s ease;
+}
+
+.top-nav a:hover {
+  color: var(--primary);
+}
+
+/* Sticky Header */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: #000;
+  border-bottom: 1px solid white;
+}
+
+.header-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 6rem;
+}
+
+.header-left, .header-right {
+  width: 25%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-left {
+  justify-content: flex-start;
+}
+
+.header-right {
+  justify-content: flex-end;
+}
+
+.header-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.logo-img {
+  height: 5rem;
+  width: auto;
+  object-fit: contain;
+}
+
+.header button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.3s ease;
+  display: none;
+}
+
+.header button:hover {
+  color: var(--primary);
+}
+
+.menu-btn {
+  display: block;
+}
+
+.subscribe-link {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: white;
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: color 0.3s ease;
+}
+
+.subscribe-link:hover {
+  color: var(--primary);
+}
+
+/* Mobile Menu */
+.mobile-nav {
+  display: none;
+  border-top: 1px solid white;
+  background-color: #000;
+  padding: 1rem 0;
+}
+
+.mobile-nav.active {
+  display: block;
+}
+
+.mobile-nav ul {
+  list-style: none;
+  padding: 0 1.5rem;
+}
+
+.mobile-nav li {
+  margin-bottom: 1rem;
+}
+
+.mobile-nav a {
+  color: white;
+  font-size: 0.875rem;
+  font-weight: bold;
+  font-family: "Roboto", sans-serif;
+  transition: color 0.3s ease;
+  display: block;
+  padding: 0.5rem 0;
+}
+
+.mobile-nav a:hover {
+  color: var(--primary);
+}
+
+/* ============================================
+   Container & Layout
+   ============================================ */
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.page-wrapper {
+  min-height: 100vh;
+  background-color: #f9f8f5;
+}
+
+.page-header {
+  background-color: white;
+  border-bottom: 2px solid #000;
+  padding: 3rem 0;
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  margin-bottom: 0.5rem;
+}
+
+.page-header p {
+  font-size: 1.25rem;
+  color: #666;
+}
+
+.page-content {
+  flex: 1;
+  padding: 0 1.5rem 2rem;
+}
+
+/* ============================================
+   Hero Section
+   ============================================ */
+
+.hero {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+  margin-bottom: 4rem;
+  border-bottom: 1px solid #000;
+  padding-bottom: 3rem;
+}
+
+.hero-main h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid #000;
+  padding-bottom: 1rem;
+}
+
+.hero-main img {
+  width: 100%;
+  height: 20rem;
+  object-fit: cover;
+  margin-bottom: 1.5rem;
+}
+
+.hero-main h3 {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.hero-main p {
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+}
+
+.hero-main a {
+  font-weight: bold;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+.hero-sidebar {
+  border-top: 2px solid #000;
+  padding-top: 1rem;
+}
+
+.hero-sidebar h2 {
+  border-bottom: 2px solid #000;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* ============================================
+   Article Cards
+   ============================================ */
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.article-card {
+  border: 1px solid #ddd;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.article-card img {
+  width: 100%;
+  height: 12rem;
+  object-fit: cover;
+  display: block;
+}
+
+.article-card-content {
+  padding: 1rem;
+}
+
+.article-card h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.article-card-meta {
+  font-size: 0.75rem;
+  color: #999;
+  margin-top: 0.5rem;
+}
+
+.article-card a {
+  color: inherit;
+}
+
+/* ============================================
+   Sections
+   ============================================ */
+
+.section {
+  margin-bottom: 4rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.section h2 {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid #000;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+}
+
+/* ============================================
+   Sidebar
+   ============================================ */
+
+.sidebar {
+  border: 1px solid #ddd;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  background-color: white;
+}
+
+.sidebar h3 {
+  font-size: 1.125rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+}
+
+.sidebar-item {
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-item a {
+  color: #333;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.sidebar-item a:hover {
+  color: var(--primary);
+}
+
+.sidebar-item-meta {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+
+.btn {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+}
+
+.btn-primary {
+  background-color: #000;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #333;
+}
+
+.btn-secondary {
+  border: 2px solid #000;
+  background-color: transparent;
+  color: #000;
+}
+
+.btn-secondary:hover {
+  background-color: #f9f8f5;
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+
+.footer {
+  background-color: #f0ede3;
+  border-top: 2px solid #000;
+  padding: 4rem 1.5rem;
+  margin-top: 4rem;
+}
+
+.footer-container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.footer-column h4 {
+  font-weight: bold;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.footer-column ul {
+  list-style: none;
+}
+
+.footer-column li {
+  margin-bottom: 0.75rem;
+}
+
+.footer-column a {
+  color: #666;
+  font-size: 0.875rem;
+  transition: color 0.3s ease;
+}
+
+.footer-column a:hover {
+  color: var(--primary);
+}
+
+.footer-logo {
+  height: 5rem;
+  width: auto;
+  object-fit: contain;
+  margin-bottom: 1rem;
+}
+
+.back-to-top {
+  background: none;
+  border: none;
+  color: #000;
+  font-weight: bold;
+  font-size: 0.75rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.back-to-top:hover {
+  color: var(--primary);
+}
+
+.footer-copyright {
+  border-top: 1px solid #ddd;
+  padding-top: 2rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #999;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 1024px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .articles-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .top-nav {
+    display: none;
+  }
+
+  .menu-btn {
+    display: block;
+  }
+
+  .header-content {
+    height: 5rem;
+  }
+
+  .logo-img {
+    height: 4rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .hero-main h2,
+  .hero-main h3 {
+    font-size: 1.5rem;
+  }
+
+  .articles-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .page-header {
+    padding: 2rem 0;
+  }
+
+  .top-nav ul {
+    gap: 1rem;
+    padding: 0.5rem 0;
+  }
+
+  .top-nav a {
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  .hero-main h2 {
+    font-size: 1.25rem;
+  }
+
+  .articles-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .header-content {
+    height: 4rem;
+  }
+
+  .logo-img {
+    height: 3rem;
+  }
+
+  .page-header {
+    padding: 1.5rem 0;
+  }
+
+  .top-nav ul {
+    gap: 0.75rem;
+  }
+}
