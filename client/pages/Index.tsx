@@ -211,7 +211,7 @@ export default function Index() {
         </div>
 
         {/* AdSense — Leaderboard below hero */}
-        <AdUnit slot="8278177353" format="horizontal" className="mb-12" />
+        <AdUnit slot="8278177353" format="horizontal" className="mb-12" label={false} />
 
         {/* Gallery Section */}
         <HomeGallery />
@@ -222,7 +222,7 @@ export default function Index() {
         ))}
 
         {/* AdSense — Horizontal between categories and video */}
-        <AdUnit slot="8278177353" format="horizontal" className="my-8" />
+        <AdUnit slot="8278177353" format="horizontal" className="my-8" label={false} />
 
         {/* Video Gallery Section */}
         <HomeVideoGallery />

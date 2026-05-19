@@ -182,11 +182,10 @@ export default function ArticlePage() {
               <ShareBar title={article.title} />
             </div>
 
-            {/* AdSense — In-Article Unit */}
+            {/* AdSense — Below Article Unit */}
             <AdUnit
               slot="8278177353"
               format="rectangle"
-              layout="in-article"
               className="my-8"
             />
 
@@ -269,7 +268,7 @@ export default function ArticlePage() {
             {/* AdSense — Sidebar unit between sections */}
             {activeGalleries.length > 0 && (
               <div className="my-6">
-                <AdUnit slot="8278177353" format="auto" />
+                <AdUnit slot="8278177353" format="rectangle" />
               </div>
             )}
 

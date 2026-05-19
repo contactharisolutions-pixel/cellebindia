@@ -12,7 +12,7 @@ interface AdUnitProps {
   format?: AdFormat;
   layout?: AdLayout;
   className?: string;
-  /** Show "Advertisement" label above the unit (default true) */
+  /** Show "Advertisement" label above the unit (default false for horizontal, true for rectangle) */
   label?: boolean;
   responsive?: boolean;
 }
@@ -30,11 +30,10 @@ export default function AdUnit({
   format = "auto",
   layout = "",
   className,
-  label = true,
+  label = format === "rectangle",
   responsive = true,
 }: AdUnitProps) {
   const insRef = useRef<HTMLElement>(null);
-  const pushed = useRef(false);
   const location = useLocation();
 
   // ── Never render ads in admin panel ──────────────────────────────────────
@@ -45,49 +44,44 @@ export default function AdUnit({
   const publisherId = cfg.publisherId;
   const globalEnabled = cfg.enabled;
 
-  // Is this specific slot active?
-  const slotCfg = cfg.slots.find((s) => s.id === slot);
-  const slotEnabled = slotCfg?.active ?? true; // default active if not listed
-
   const isConfigured = isPublisherConfigured(publisherId);
-  const shouldRender = !isAdmin && isConfigured && globalEnabled && slotEnabled;
+  const shouldRender = !isAdmin && isConfigured && globalEnabled;
 
   useEffect(() => {
-    if (!shouldRender || pushed.current) return;
-    if (!insRef.current) return;
+    if (!shouldRender) return;
 
-    // Guard: adsbygoogle throws if pushed twice on same <ins>
-    if (insRef.current.getAttribute("data-adsbygoogle-status")) return;
+    // Wait one tick so the <ins> is fully painted and sized in the DOM
+    const timer = setTimeout(() => {
+      const el = insRef.current;
+      if (!el) return;
 
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-      pushed.current = true;
-    } catch (e) {
-      console.warn("[AdUnit] adsbygoogle push failed:", e);
-    }
-  }, [shouldRender, location.pathname]);
+      // Authoritative guard: Google sets this attribute after processing
+      if (el.getAttribute("data-adsbygoogle-status")) return;
 
-  // Reset pushed flag on route change so new instances push fresh
-  useEffect(() => {
-    pushed.current = false;
-  }, [location.pathname]);
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (e) {
+        console.warn("[AdUnit] adsbygoogle push failed:", e);
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+    // Re-run only if the slot/format changes or route changes (new page = new <ins>)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldRender, slot, format, location.pathname]);
 
   // ── Render nothing in admin ───────────────────────────────────────────────
   if (isAdmin) return null;
 
-  // ── Render nothing if slot is explicitly disabled in admin ────────────────
-  if (globalEnabled && isConfigured && !slotEnabled) return null;
-
-  return (
-    <div className={cn("w-full overflow-hidden", className)}>
-      {label && (
-        <p className="text-center text-[9px] font-bold uppercase tracking-widest text-gray-400 mb-1 select-none">
-          Advertisement
-        </p>
-      )}
-
-      {!shouldRender ? (
-        /* ── Dev / unconfigured placeholder ─────────────────────── */
+  // ── Placeholder when publisher not configured or ads disabled ────────────
+  if (!shouldRender) {
+    return (
+      <div className={cn("w-full overflow-hidden", className)}>
+        {label && (
+          <p className="text-center text-[9px] font-bold uppercase tracking-widest text-gray-400 mb-1 select-none">
+            Advertisement
+          </p>
+        )}
         <div
           className={cn(
             "w-full flex flex-col items-center justify-center bg-gray-100 border border-dashed border-gray-300 rounded text-gray-400 select-none",
@@ -115,24 +109,32 @@ export default function AdUnit({
           <span className="text-[10px] mt-0.5 opacity-60">
             {!isConfigured
               ? "Publisher ID not configured"
-              : !globalEnabled
-              ? "AdSense globally disabled"
-              : "Slot disabled in Admin → AdSense"}
+              : "AdSense globally disabled"}
           </span>
         </div>
-      ) : (
-        /* ── Live AdSense unit ───────────────────────────────────── */
-        <ins
-          ref={insRef as any}
-          className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-client={publisherId}
-          data-ad-slot={slot}
-          data-ad-format={format}
-          {...(layout ? { "data-ad-layout": layout } : {})}
-          data-full-width-responsive={responsive ? "true" : "false"}
-        />
+      </div>
+    );
+  }
+
+  return (
+    <div className={cn("w-full overflow-hidden", className)}>
+      {label && (
+        <p className="text-center text-[9px] font-bold uppercase tracking-widest text-gray-400 mb-1 select-none">
+          Advertisement
+        </p>
       )}
+
+      {/* Live AdSense unit */}
+      <ins
+        ref={insRef as any}
+        className="adsbygoogle"
+        style={{ display: "block" }}
+        data-ad-client={publisherId}
+        data-ad-slot={slot}
+        data-ad-format={format === "rectangle" ? "auto" : format}
+        {...(layout ? { "data-ad-layout": layout } : {})}
+        data-full-width-responsive={responsive ? "true" : "false"}
+      />
     </div>
   );
 }

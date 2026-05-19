@@ -173,7 +173,7 @@ export default function CategoryPage({ category }: CategoryPageProps) {
                   <HomeGallery isSidebar={true} />
 
                   {/* Ad — Sidebar Mid */}
-                  <AdUnit slot="8278177353" format="auto" label={false} />
+                  <AdUnit slot="8278177353" format="rectangle" label={false} />
 
                   {/* Video Gallery */}
                   <div className="pt-4 border-t border-gray-200">
