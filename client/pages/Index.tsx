@@ -9,8 +9,25 @@ import { fetchArticles, fetchCategories } from "@/lib/api-client";
 import AdUnit from "@/components/AdUnit";
 import { useQuery } from "@tanstack/react-query";
 import { CategoryItem } from "@shared/api";
+import { useEffect } from "react";
 
 export default function Index() {
+  useEffect(() => {
+    document.title = "CELLEB - The Sparkling World of Stars";
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", "CELLEB - Your ultimate source for the sparkling world of stars, entertainment news, box office updates, and movie reviews.");
+    }
+    // Also add/update a canonical tag
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', `https://www.cellebindia.com/`);
+  }, []);
+
   const { data: featuredData } = useQuery({
     queryKey: ["articles", "featured"],
     queryFn: () => fetchArticles({ featured: true, limit: 8 }),

@@ -7,6 +7,7 @@ import AdUnit from "@/components/AdUnit";
 import { Link } from "react-router-dom";
 import { fetchArticles } from "@/lib/api-client";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 interface CategoryPageProps {
   category: string;
@@ -19,6 +20,22 @@ export default function CategoryPage({ category }: CategoryPageProps) {
   });
 
   const articles = data?.articles || [];
+
+  useEffect(() => {
+    document.title = `${category} News & Updates | CELLEB`;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", `Latest ${category} stories, updates, and news on CELLEB.`);
+    }
+    // Also add/update a canonical tag
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', `https://www.cellebindia.com/category/${category.toLowerCase()}`);
+  }, [category]);
 
   if (isLoading) {
     return (

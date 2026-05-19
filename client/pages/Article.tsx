@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import ArticleCard from "@/components/ArticleCard";
@@ -17,6 +18,26 @@ export default function ArticlePage() {
     queryFn: () => fetchArticleById(id!),
     enabled: !!id,
   });
+
+  useEffect(() => {
+    if (article) {
+      document.title = `${article.title} | CELLEB`;
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) {
+        metaDesc.setAttribute("content", article.excerpt || article.title);
+      }
+      // Also add/update a canonical tag
+      let canonical = document.querySelector('link[rel="canonical"]');
+      if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonical);
+      }
+      canonical.setAttribute('href', `https://www.cellebindia.com/article/${article.id}`);
+    } else {
+      document.title = "CELLEB - The Sparkling World of Stars";
+    }
+  }, [article]);
 
   const { data: nextData } = useQuery({
     queryKey: ["articles", article?.category, "next"],
