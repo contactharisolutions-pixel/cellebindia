@@ -111,7 +111,7 @@ export default function Index() {
                 {featuredArticles.length > 1 && (
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-6">
                     {featuredArticles.slice(1, 5).map(article => (
-                      <Link key={article.id} to={`/article/${article.id}`} className="group block">
+                      <Link key={article.id} to={`/article/${article.slug || article.id}`} className="group block">
                         <div className="aspect-square w-full overflow-hidden mb-3 bg-gray-100 rounded-sm">
                           <img 
                             src={article.image} 
@@ -134,7 +134,7 @@ export default function Index() {
                 {featuredArticles.length > 5 && (
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                     {featuredArticles.slice(5, 8).map(article => (
-                      <Link key={article.id} to={`/article/${article.id}`} className="group block">
+                      <Link key={article.id} to={`/article/${article.slug || article.id}`} className="group block">
                         <div className="aspect-video w-full overflow-hidden mb-3 bg-gray-100 rounded-sm">
                           <img 
                             src={article.image} 
@@ -171,7 +171,7 @@ export default function Index() {
                 {latestArticles.slice(0, 5).map((article, index) => (
                   <Link 
                     key={article.id} 
-                    to={`/article/${article.id}`} 
+                    to={`/article/${article.slug || article.id}`} 
                     className="flex items-center gap-4 p-5 border-b border-gray-100 last:border-b-0 group"
                   >
                     <div className="text-4xl font-bold text-[#E30000] w-6 text-center shrink-0">

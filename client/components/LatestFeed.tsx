@@ -56,7 +56,7 @@ export default function LatestFeed() {
           {displayedArticles.map((article) => (
             <Link
               key={article.id}
-              to={`/article/${article.id}`}
+              to={`/article/${article.slug || article.id}`}
               className="group block"
             >
               <article className="flex gap-6 pb-8 border-b border-gold-700/20 last:border-b-0 hover:opacity-75 transition-opacity">

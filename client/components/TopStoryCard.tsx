@@ -8,7 +8,7 @@ interface TopStoryCardProps {
 export default function TopStoryCard({ article }: TopStoryCardProps) {
   return (
     <Link
-      to={`/article/${article.id}`}
+      to={`/article/${article.slug || article.id}`}
       className="block group border-b border-black pb-8 mb-8"
     >
       <div className="flex flex-col lg:flex-row gap-8">

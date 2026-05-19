@@ -37,7 +37,7 @@ export default function TopStoriesStrip({ articles }: TopStoriesStripProps) {
             {articles.map((article) => (
               <Link
                 key={article.id}
-                to={`/article/${article.id}`}
+                to={`/article/${article.slug || article.id}`}
                 className="flex-shrink-0 w-80 group/card snap-start"
               >
                 <div className="relative h-48 overflow-hidden rounded-lg mb-4">

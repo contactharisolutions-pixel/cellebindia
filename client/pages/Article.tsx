@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import ArticleCard from "@/components/ArticleCard";
 import Footer from "@/components/Footer";
@@ -12,6 +12,7 @@ import { parseEmbeds } from "@/lib/utils";
 
 export default function ArticlePage() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
   const { data: article, isLoading: isArticleLoading } = useQuery({
     queryKey: ["article", id],
@@ -20,24 +21,51 @@ export default function ArticlePage() {
   });
 
   useEffect(() => {
-    if (article) {
-      document.title = `${article.title} | CELLEB`;
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) {
-        metaDesc.setAttribute("content", article.excerpt || article.title);
-      }
-      // Also add/update a canonical tag
-      let canonical = document.querySelector('link[rel="canonical"]');
-      if (!canonical) {
-        canonical = document.createElement('link');
-        canonical.setAttribute('rel', 'canonical');
-        document.head.appendChild(canonical);
-      }
-      canonical.setAttribute('href', `https://www.cellebindia.com/article/${article.id}`);
-    } else {
+    if (!article) {
       document.title = "CELLEB - The Sparkling World of Stars";
+      return;
     }
-  }, [article]);
+
+    // ── If URL uses ID instead of slug, redirect to canonical slug URL ──────
+    if (article.slug && id !== article.slug) {
+      navigate(`/article/${article.slug}`, { replace: true });
+      return;
+    }
+
+    // ── Page title & description ────────────────────────────────────────────
+    document.title = `${article.title} | CELLEB`;
+
+    const setMeta = (name: string, content: string) => {
+      let el = document.querySelector(`meta[name="${name}"]`);
+      if (!el) { el = document.createElement('meta'); el.setAttribute('name', name); document.head.appendChild(el); }
+      el.setAttribute('content', content);
+    };
+    const setOg = (property: string, content: string) => {
+      let el = document.querySelector(`meta[property="${property}"]`);
+      if (!el) { el = document.createElement('meta'); el.setAttribute('property', property); document.head.appendChild(el); }
+      el.setAttribute('content', content);
+    };
+
+    const canonicalUrl = `https://www.cellebindia.com/article/${article.slug || article.id}`;
+    const description = article.excerpt || article.title;
+
+    setMeta('description', description);
+    setOg('og:title', `${article.title} | CELLEB`);
+    setOg('og:description', description);
+    setOg('og:url', canonicalUrl);
+    setOg('og:image', article.image || '');
+    setOg('og:type', 'article');
+    setOg('og:site_name', 'CELLEB');
+
+    // ── Canonical link tag ──────────────────────────────────────────────────
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', canonicalUrl);
+  }, [article, id, navigate]);
 
   const { data: nextData } = useQuery({
     queryKey: ["articles", article?.category, "next"],
@@ -175,7 +203,7 @@ export default function ArticlePage() {
                     </h2>
 
                     <Link
-                      to={`/article/${nextArticle.id}`}
+                      to={`/article/${nextArticle.slug || nextArticle.id}`}
                       className="block group"
                     >
                       <h3 className="text-2xl font-serif font-bold text-black mb-4 group-hover:text-primary transition-colors">
@@ -217,7 +245,7 @@ export default function ArticlePage() {
                 {whatHotArticles.map((hotArticle) => (
                   <Link
                     key={hotArticle.id}
-                    to={`/article/${hotArticle.id}`}
+                    to={`/article/${hotArticle.slug || hotArticle.id}`}
                     className="group block"
                   >
                     <div className="mb-3 overflow-hidden">

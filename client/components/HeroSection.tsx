@@ -21,7 +21,7 @@ export default function HeroSection({ article }: HeroSectionProps) {
 
       {/* Content */}
       <Link
-        to={`/article/${article.id}`}
+        to={`/article/${article.slug || article.id}`}
         className="relative h-full flex flex-col justify-end p-6 md:p-10 lg:p-16 cursor-pointer"
       >
         {/* Category tag */}

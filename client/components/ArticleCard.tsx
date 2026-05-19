@@ -14,7 +14,7 @@ export default function ArticleCard({
 }: ArticleCardProps) {
   if (layout === "small") {
     return (
-      <Link to={`/article/${article.id}`} className="flex gap-3 group py-4">
+      <Link to={`/article/${article.slug || article.id}`} className="flex gap-3 group py-4">
         <div className="w-24 flex-shrink-0 overflow-hidden aspect-[3/2]">
           <img
             src={article.image}
@@ -36,7 +36,7 @@ export default function ArticleCard({
 
   if (layout === "horizontal") {
     return (
-      <Link to={`/article/${article.id}`} className="group flex gap-4 py-4">
+      <Link to={`/article/${article.slug || article.id}`} className="group flex gap-4 py-4">
         <div className="w-32 md:w-48 flex-shrink-0 overflow-hidden aspect-[16/9]">
           <img
             src={article.image}
@@ -66,7 +66,7 @@ export default function ArticleCard({
 
   // Vertical layout (default)
   return (
-    <Link to={`/article/${article.id}`} className="group block">
+    <Link to={`/article/${article.slug || article.id}`} className="group block">
       <div className="mb-4 overflow-hidden aspect-[16/9]">
         <img
           src={article.image}

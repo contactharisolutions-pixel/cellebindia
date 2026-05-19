@@ -30,7 +30,7 @@ export default function CategorySection({ category }: CategorySectionProps) {
         {/* Left Column - Featured Article */}
         {articles.length > 0 && (
           <div>
-            <Link to={`/article/${articles[0].id}`} className="group block">
+            <Link to={`/article/${articles[0].slug || articles[0].id}`} className="group block">
               <div className="mb-4 overflow-hidden aspect-[16/9]">
                 <img
                   src={articles[0].image}
@@ -53,7 +53,7 @@ export default function CategorySection({ category }: CategorySectionProps) {
           <div className="flex flex-col">
             {articles.slice(1).map((article, idx) => (
               <div key={article.id} className={`py-4 ${idx !== 0 ? 'border-t border-gray-100' : 'pt-0'}`}>
-                <Link to={`/article/${article.id}`} className="group flex justify-between gap-4">
+                <Link to={`/article/${article.slug || article.id}`} className="group flex justify-between gap-4">
                   <div className="flex-1 min-w-0 pr-4">
                     <h4 className="text-sm md:text-base font-semibold text-black group-hover:text-primary transition-colors line-clamp-3 leading-snug mb-2">
                       {article.title}

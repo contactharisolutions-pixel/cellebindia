@@ -90,6 +90,7 @@ export async function getAllArticles(params: { category?: string, limit?: number
 }
 
 export async function getArticleById(id: string): Promise<Article | null> {
+  // Try by primary ID first
   const { data, error } = await supabase
     .from('articles')
     .select(`
@@ -103,14 +104,33 @@ export async function getArticleById(id: string): Promise<Article | null> {
     .eq('id', id)
     .single();
 
-  if (error) {
-    if (error.code === 'PGRST116') return null; // Not found
-    console.error("Error fetching article by ID:", error);
-    throw error;
+  if (!error && data) {
+    const tags = data.article_tags?.map((at: any) => at.tags?.name).filter(Boolean) || [];
+    return mapArticle({ ...data, tags });
   }
 
-  const tags = data.article_tags?.map((at: any) => at.tags?.name).filter(Boolean) || [];
-  return mapArticle({ ...data, tags });
+  // Fallback: try by slug (for SEO URLs from sitemap / Google)
+  const { data: slugData, error: slugError } = await supabase
+    .from('articles')
+    .select(`
+      *,
+      article_tags (
+        tags (
+          name
+        )
+      )
+    `)
+    .eq('slug', id)
+    .single();
+
+  if (slugError) {
+    if (slugError.code === 'PGRST116') return null; // Not found by slug either
+    console.error("Error fetching article by slug:", slugError);
+    return null;
+  }
+
+  const tags = slugData.article_tags?.map((at: any) => at.tags?.name).filter(Boolean) || [];
+  return mapArticle({ ...slugData, tags });
 }
 
 export async function saveArticle(article: Article): Promise<void> {
