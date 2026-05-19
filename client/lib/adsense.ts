@@ -22,6 +22,13 @@ export interface AdSenseConfig {
 
 const STORAGE_KEY = "celleb_adsense_config";
 
+/** ── Hardcoded production defaults ─────────────────────────────────────────
+ * These are used when localStorage has no saved config (e.g., first visit).
+ * Never change PUBLISHER_ID — it's your real AdSense publisher ID.
+ */
+const PUBLISHER_ID = "ca-pub-3892340345930235";
+const AD_SLOT_ID   = "8278177353";
+
 /** Default slot definitions — IDs here must match your AdSense console */
 export const DEFAULT_SLOTS: AdSlotConfig[] = [
   // ── Article page ──────────────────────────────────────────────────────────
@@ -106,39 +113,32 @@ export const DEFAULT_SLOTS: AdSlotConfig[] = [
   },
 ];
 
-/** Return the placeholder ID from index.html (fallback if nothing saved yet) */
-function getHtmlPublisherId(): string {
-  if (typeof document === "undefined") return "";
-  const scripts = Array.from(
-    document.querySelectorAll<HTMLScriptElement>("script[src*='adsbygoogle']")
-  );
-  for (const s of scripts) {
-    const m = s.src.match(/client=(ca-pub-[0-9X]+)/);
-    if (m) return m[1];
-  }
-  return "";
-}
-
-/** Load config from localStorage, falling back to sensible defaults */
+/** Load config from localStorage, falling back to hardcoded production defaults */
 export function getAdSenseConfig(): AdSenseConfig {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
       const parsed: AdSenseConfig = JSON.parse(raw);
       // Merge in any new default slots that aren't yet in saved config
-      const savedIds = new Set(parsed.slots.map((s) => s.id));
+      // Use slot NAME as unique key (all slots share the same ID now)
+      const savedNames = new Set(parsed.slots.map((s) => s.name));
       const merged = [
         ...parsed.slots,
-        ...DEFAULT_SLOTS.filter((s) => !savedIds.has(s.id)),
+        ...DEFAULT_SLOTS.filter((s) => !savedNames.has(s.name)),
       ];
-      return { ...parsed, slots: merged };
+      // ── Always ensure real publisher ID is used (overrides stale placeholder) ──
+      const publisherId = isPublisherConfigured(parsed.publisherId)
+        ? parsed.publisherId
+        : PUBLISHER_ID;
+      return { ...parsed, publisherId, slots: merged };
     }
   } catch {
     /* ignore parse errors */
   }
 
+  // ── No localStorage yet (first visit) — use hardcoded production defaults ──
   return {
-    publisherId: getHtmlPublisherId() || "ca-pub-XXXXXXXXXX",
+    publisherId: PUBLISHER_ID,
     enabled: true,
     slots: DEFAULT_SLOTS,
   };

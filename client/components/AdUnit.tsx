@@ -33,45 +33,53 @@ export default function AdUnit({
   label = true,
   responsive = true,
 }: AdUnitProps) {
-  const insRef = useRef<HTMLModElement>(null);
+  const insRef = useRef<HTMLElement>(null);
   const pushed = useRef(false);
   const location = useLocation();
 
   // ── Never render ads in admin panel ──────────────────────────────────────
   const isAdmin = location.pathname.startsWith("/admin");
 
-  // ── Read live config from localStorage (set by Admin → AdSense page) ────
+  // ── Read live config — publisher ID is always hardcoded as fallback ──────
   const cfg = getAdSenseConfig();
   const publisherId = cfg.publisherId;
   const globalEnabled = cfg.enabled;
 
-  // Is this specific slot enabled in the admin?
+  // Is this specific slot active?
   const slotCfg = cfg.slots.find((s) => s.id === slot);
   const slotEnabled = slotCfg?.active ?? true; // default active if not listed
 
   const isConfigured = isPublisherConfigured(publisherId);
-  const shouldRender = isConfigured && globalEnabled && slotEnabled;
+  const shouldRender = !isAdmin && isConfigured && globalEnabled && slotEnabled;
 
   useEffect(() => {
-    if (isAdmin || !shouldRender || pushed.current) return;
+    if (!shouldRender || pushed.current) return;
     if (!insRef.current) return;
+
+    // Guard: adsbygoogle throws if pushed twice on same <ins>
+    if (insRef.current.getAttribute("data-adsbygoogle-status")) return;
+
     try {
-      window.adsbygoogle = window.adsbygoogle || [];
-      window.adsbygoogle.push({});
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
       pushed.current = true;
     } catch (e) {
       console.warn("[AdUnit] adsbygoogle push failed:", e);
     }
-  }, [isAdmin, shouldRender]);
+  }, [shouldRender, location.pathname]);
+
+  // Reset pushed flag on route change so new instances push fresh
+  useEffect(() => {
+    pushed.current = false;
+  }, [location.pathname]);
 
   // ── Render nothing in admin ───────────────────────────────────────────────
   if (isAdmin) return null;
 
-  // ── Render nothing if slot is disabled in admin ───────────────────────────
+  // ── Render nothing if slot is explicitly disabled in admin ────────────────
   if (globalEnabled && isConfigured && !slotEnabled) return null;
 
   return (
-    <div className={cn("w-full", className)}>
+    <div className={cn("w-full overflow-hidden", className)}>
       {label && (
         <p className="text-center text-[9px] font-bold uppercase tracking-widest text-gray-400 mb-1 select-none">
           Advertisement
@@ -106,7 +114,7 @@ export default function AdUnit({
           <span className="text-xs font-semibold">Ad Slot: {slot}</span>
           <span className="text-[10px] mt-0.5 opacity-60">
             {!isConfigured
-              ? "Configure Publisher ID in Admin → AdSense"
+              ? "Publisher ID not configured"
               : !globalEnabled
               ? "AdSense globally disabled"
               : "Slot disabled in Admin → AdSense"}
@@ -115,12 +123,13 @@ export default function AdUnit({
       ) : (
         /* ── Live AdSense unit ───────────────────────────────────── */
         <ins
-          ref={insRef}
-          className="adsbygoogle block"
+          ref={insRef as any}
+          className="adsbygoogle"
+          style={{ display: "block" }}
           data-ad-client={publisherId}
           data-ad-slot={slot}
           data-ad-format={format}
-          data-ad-layout={layout || undefined}
+          {...(layout ? { "data-ad-layout": layout } : {})}
           data-full-width-responsive={responsive ? "true" : "false"}
         />
       )}
