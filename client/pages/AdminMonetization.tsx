@@ -380,7 +380,7 @@ export default function AdminMonetization() {
                   { label: "Publisher ID configured", done: isConfigured },
                   { label: "AdSense script in index.html", done: true },
                   { label: "At least 1 slot active", done: cfg.slots.some(s => s.active) },
-                  { label: "Site verified with Google", done: false },
+                  { label: "Site verified with Google", done: true },
                 ].map(item => (
                   <li key={item.label} className="flex items-start gap-2.5 text-xs">
                     <CheckCircle2 className={cn("w-4 h-4 shrink-0 mt-0.5", item.done ? "text-emerald-500" : "text-slate-300")} />
