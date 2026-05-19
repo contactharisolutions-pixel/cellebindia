@@ -60,12 +60,12 @@ export default function AdminMonetization() {
   const isConfigured = isPublisherConfigured(cfg.publisherId);
   const update = useCallback((patch: Partial<AdSenseConfig>) => setCfg(p => ({ ...p, ...patch })), []);
 
-  const toggleSlot = (id: string) =>
-    update({ slots: cfg.slots.map(s => s.id === id ? { ...s, active: !s.active } : s) });
+  const toggleSlot = (name: string) =>
+    update({ slots: cfg.slots.map(s => s.name === name ? { ...s, active: !s.active } : s) });
 
-  const commitSlotId = (oldId: string) => {
+  const commitSlotId = (name: string) => {
     const t = editSlotId.trim();
-    if (t) update({ slots: cfg.slots.map(s => s.id === oldId ? { ...s, id: t } : s) });
+    if (t) update({ slots: cfg.slots.map(s => s.name === name ? { ...s, id: t } : s) });
     setEditingSlot(null);
   };
 
@@ -330,7 +330,7 @@ export default function AdminMonetization() {
               </div>
               <div className="divide-y divide-slate-100">
                 {cfg.slots.map(slot => (
-                  <div key={slot.id} className="p-4 flex items-center gap-3 hover:bg-slate-50/60 transition-colors">
+                  <div key={slot.name} className="p-4 flex items-center gap-3 hover:bg-slate-50/60 transition-colors">
                     <div className="w-9 h-9 rounded-lg border border-slate-100 bg-slate-50 flex items-center justify-center shrink-0">
                       <Layout className="w-4 h-4 text-slate-400" />
                     </div>
@@ -338,18 +338,18 @@ export default function AdminMonetization() {
                       <h4 className="font-semibold text-slate-800 text-sm truncate">{slot.name}</h4>
                       <p className="text-[10px] text-slate-500 truncate">{slot.placement}</p>
                       <div className="flex items-center gap-1.5 mt-1.5">
-                        {editingSlot === slot.id ? (
+                        {editingSlot === slot.name ? (
                           <>
                             <Input autoFocus value={editSlotId} onChange={e => setEditSlotId(e.target.value)}
-                              onKeyDown={e => { if (e.key === "Enter") commitSlotId(slot.id); if (e.key === "Escape") setEditingSlot(null); }}
+                              onKeyDown={e => { if (e.key === "Enter") commitSlotId(slot.name); if (e.key === "Escape") setEditingSlot(null); }}
                               className="h-6 text-xs font-mono w-32 border-slate-300 rounded px-2 py-0" />
-                            <button onClick={() => commitSlotId(slot.id)} className="text-emerald-500"><Check className="w-3.5 h-3.5" /></button>
+                            <button onClick={() => commitSlotId(slot.name)} className="text-emerald-500"><Check className="w-3.5 h-3.5" /></button>
                             <button onClick={() => setEditingSlot(null)} className="text-slate-400"><X className="w-3.5 h-3.5" /></button>
                           </>
                         ) : (
                           <>
                             <code className="text-[10px] text-slate-400 font-mono bg-slate-100 px-1.5 py-0.5 rounded">{slot.id}</code>
-                            <button onClick={() => { setEditingSlot(slot.id); setEditSlotId(slot.id); }} className="text-slate-300 hover:text-primary">
+                            <button onClick={() => { setEditingSlot(slot.name); setEditSlotId(slot.id); }} className="text-slate-300 hover:text-primary">
                               <Pencil className="w-3 h-3" />
                             </button>
                             <Badge variant="outline" className="text-[9px] font-mono text-slate-400 py-0 px-1">{slot.format}</Badge>
@@ -357,7 +357,7 @@ export default function AdminMonetization() {
                         )}
                       </div>
                     </div>
-                    <Switch checked={slot.active} onCheckedChange={() => toggleSlot(slot.id)} />
+                    <Switch checked={slot.active} onCheckedChange={() => toggleSlot(slot.name)} />
                   </div>
                 ))}
               </div>
