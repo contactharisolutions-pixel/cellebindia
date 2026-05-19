@@ -142,7 +142,7 @@ export default function Index() {
           {/* RIGHT COLUMN: WHAT'S HOT + ADS (1/3 Width) */}
           <div className="lg:col-span-1 flex flex-col gap-6">
             {/* Ad — Sidebar Top */}
-            <AdUnit slot="3344556677" format="rectangle" label={true} />
+            <AdUnit slot="8278177353" format="rectangle" label={true} />
 
             <div>
               <h2 className="text-3xl font-black text-black mb-4">
@@ -189,12 +189,12 @@ export default function Index() {
             </div>
 
             {/* Ad — Sidebar Bottom */}
-            <AdUnit slot="7766554433" format="rectangle" label={true} />
+            <AdUnit slot="8278177353" format="rectangle" label={true} />
           </div>
         </div>
 
         {/* AdSense — Leaderboard below hero */}
-        <AdUnit slot="5566778899" format="horizontal" className="mb-12" />
+        <AdUnit slot="8278177353" format="horizontal" className="mb-12" />
 
         {/* Gallery Section */}
         <HomeGallery />
@@ -205,7 +205,7 @@ export default function Index() {
         ))}
 
         {/* AdSense — Horizontal between categories and video */}
-        <AdUnit slot="9988776655" format="horizontal" className="my-8" />
+        <AdUnit slot="8278177353" format="horizontal" className="my-8" />
 
         {/* Video Gallery Section */}
         <HomeVideoGallery />

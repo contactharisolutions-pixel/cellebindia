@@ -135,7 +135,7 @@ export default function ArticlePage() {
 
             {/* AdSense — In-Article Unit */}
             <AdUnit
-              slot="1234567890"
+              slot="8278177353"
               format="rectangle"
               layout="in-article"
               className="my-8"
@@ -184,7 +184,7 @@ export default function ArticlePage() {
           <aside className="lg:col-span-1">
             {/* AdSense — Sidebar Rectangle (sticky-top) */}
             <div className="mb-8">
-              <AdUnit slot="0987654321" format="rectangle" />
+              <AdUnit slot="8278177353" format="rectangle" />
             </div>
             {/* WHAT'S HOT Section */}
             <section className="mb-12 border-b-2 border-black pb-8">
@@ -220,7 +220,7 @@ export default function ArticlePage() {
             {/* AdSense — Sidebar unit between sections */}
             {activeGalleries.length > 0 && (
               <div className="my-6">
-                <AdUnit slot="1122334455" format="auto" />
+                <AdUnit slot="8278177353" format="auto" />
               </div>
             )}
 

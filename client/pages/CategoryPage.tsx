@@ -117,7 +117,7 @@ export default function CategoryPage({ category }: CategoryPageProps) {
                     {/* In-feed AdSense banner between rows */}
                     {articles.length > 5 && (
                       <AdUnit
-                        slot="4455667788"
+                        slot="8278177353"
                         format="horizontal"
                         className="my-4"
                       />
@@ -138,7 +138,7 @@ export default function CategoryPage({ category }: CategoryPageProps) {
 
                     {/* Bottom Leaderboard */}
                     <AdUnit
-                      slot="8877665544"
+                      slot="8278177353"
                       format="horizontal"
                       className="mt-8"
                     />
@@ -150,13 +150,13 @@ export default function CategoryPage({ category }: CategoryPageProps) {
               <div className="lg:col-span-4">
                 <div className="sticky top-24 space-y-8">
                   {/* Ad — Sidebar Top Rectangle */}
-                  <AdUnit slot="2233445566" format="rectangle" />
+                  <AdUnit slot="8278177353" format="rectangle" />
 
                   {/* Galleries */}
                   <HomeGallery isSidebar={true} />
 
                   {/* Ad — Sidebar Mid */}
-                  <AdUnit slot="6655443322" format="auto" label={false} />
+                  <AdUnit slot="8278177353" format="auto" label={false} />
 
                   {/* Video Gallery */}
                   <div className="pt-4 border-t border-gray-200">

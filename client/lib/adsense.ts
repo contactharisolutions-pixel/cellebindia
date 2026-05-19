@@ -7,7 +7,7 @@
  */
 
 export interface AdSlotConfig {
-  id: string;           // The AdSense ad-unit slot ID (e.g. "1234567890")
+  id: string;           // The AdSense ad-unit slot ID (e.g. "8278177353")
   name: string;         // Human-readable label shown in admin
   placement: string;    // Description of where on the site it appears
   format: string;       // "Rectangle" | "Horizontal" | "Auto" | "Vertical"
@@ -26,21 +26,21 @@ const STORAGE_KEY = "celleb_adsense_config";
 export const DEFAULT_SLOTS: AdSlotConfig[] = [
   // ── Article page ──────────────────────────────────────────────────────────
   {
-    id: "1234567890",
+    id: "8278177353",
     name: "Article — In-Article Unit",
     placement: "Article page · after article body",
     format: "Rectangle",
     active: true,
   },
   {
-    id: "0987654321",
+    id: "8278177353",
     name: "Article — Sidebar Top",
     placement: "Article page · sidebar top",
     format: "Rectangle",
     active: true,
   },
   {
-    id: "1122334455",
+    id: "8278177353",
     name: "Article — Sidebar Mid",
     placement: "Article page · sidebar between sections",
     format: "Auto",
@@ -48,28 +48,28 @@ export const DEFAULT_SLOTS: AdSlotConfig[] = [
   },
   // ── Home page ─────────────────────────────────────────────────────────────
   {
-    id: "5566778899",
+    id: "8278177353",
     name: "Home — Hero Leaderboard",
     placement: "Home page · full-width below hero",
     format: "Horizontal",
     active: true,
   },
   {
-    id: "9988776655",
+    id: "8278177353",
     name: "Home — Pre-Video Banner",
     placement: "Home page · before video gallery",
     format: "Horizontal",
     active: true,
   },
   {
-    id: "3344556677",
+    id: "8278177353",
     name: "Home — Right Sidebar Top",
     placement: "Home page · right column above What's Hot",
     format: "Rectangle",
     active: true,
   },
   {
-    id: "7766554433",
+    id: "8278177353",
     name: "Home — Right Sidebar Bottom",
     placement: "Home page · right column below What's Hot",
     format: "Rectangle",
@@ -77,28 +77,28 @@ export const DEFAULT_SLOTS: AdSlotConfig[] = [
   },
   // ── Category pages ────────────────────────────────────────────────────────
   {
-    id: "2233445566",
+    id: "8278177353",
     name: "Category — Sidebar Rectangle",
     placement: "All category pages · right sidebar top",
     format: "Rectangle",
     active: true,
   },
   {
-    id: "6655443322",
+    id: "8278177353",
     name: "Category — Sidebar Mid",
     placement: "All category pages · right sidebar middle",
     format: "Auto",
     active: true,
   },
   {
-    id: "4455667788",
+    id: "8278177353",
     name: "Category — In-Feed Banner",
     placement: "All category pages · between article rows",
     format: "Horizontal",
     active: true,
   },
   {
-    id: "8877665544",
+    id: "8278177353",
     name: "Category — Bottom Leaderboard",
     placement: "All category pages · below article grid",
     format: "Horizontal",
